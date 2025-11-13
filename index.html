@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>نظام الانتدابات والإجازات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --primary:#0e0edd;   /* اللون الأزرق الغامق اللي طلبته */
+      --card-bg:#05051f;
+    }
+    *{box-sizing:border-box;}
+    body{
+  margin:0;
+  font-family:"Tahoma",Arial,sans-serif;
+  background: url("https://raw.githubusercontent.com/xhhp1/FRIMAGE/main/IMAGE.PNG.jpeg") no-repeat center center fixed;
+  background-size: cover;
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:20px;
+}
+    .app{
+      width:100%;
+      max-width:900px;
+      background:var(--card-bg);
+      border-radius:16px;
+      padding:20px 20px 30px;
+      box-shadow:0 0 25px #000; /* ظل أسود */
+    }
+    h1{
+      margin:0 0 16px;
+      text-align:center;
+      font-size:24px;
+    }
+    .tabs{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:16px;
+      justify-content:center;
+    }
+    .tab-btn{
+      flex:1 1 45%;
+      min-width:120px;
+      border:none;
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:14px;
+      background:#111a;
+      cursor:pointer;
+      color:#fff;
+      box-shadow:0 0 10px #000;
+      transition:0.2s ease;
+      white-space:nowrap;
+    }
+    .tab-btn.active{
+      background:#fff;
+      color:#000;
+    }
+    .tab-content{
+      display:none;
+    }
+    .tab-content.active{
+      display:block;
+      animation:fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(4px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+    .section{margin-bottom:16px;}
+    .label{
+      display:block;
+      margin-bottom:4px;
+      font-size:14px;
+    }
+    input[type="number"],
+    input[type="text"],
+    input[type="datetime-local"],
+    input[type="date"],
+    select,
+    textarea{
+      width:100%;
+      padding:8px 10px;
+      border-radius:8px;
+      border:1px solid #333;
+      background:#020212;
+      color:#fff;
+      font-size:14px;
+      box-shadow:0 0 10px #000;
+    }
+    textarea{
+      min-height:180px;
+      resize:vertical;
+      white-space:pre-wrap;
+    }
+    .primary{
+      margin-top:10px;
+      border:none;
+      border-radius:999px;
+      padding:9px 16px;
+      font-size:14px;
+      background:#fff;
+      color:#000;
+      cursor:pointer;
+      box-shadow:0 0 10px #000;
+    }
+    .primary:hover{opacity:0.9;}
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .result-box{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:10px;
+      background:#020212;
+      box-shadow:0 0 10px #000;
+      font-size:14px;
+      white-space:pre-wrap;
+    }
+    .note{
+      font-size:12px;
+      opacity:0.8;
+      margin-top:4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>نظام الانتدابات والإجازات</h1>
+
+    <!-- أزرار التابات -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tab1">مدة الانتداب</button>
+      <button class="tab-btn" data-tab="tab2">الانتدابات</button>
+      <button class="tab-btn" data-tab="tab3">قطع و انتهاء انتداب</button>
+      <button class="tab-btn" data-tab="tab4">إجازة خارجية</button>
+    </div>
+
+    <!-- تبويب 1: مدة الانتداب -->
+    <div id="tab1" class="tab-content active">
+      <div class="section">
+        <span class="label">مدة انتدابك بالأيام (من 2 إلى 5):</span>
+        <input type="number" id="days1" min="2" max="5" />
+      </div>
+
+      <div class="section">
+        <span class="label">تاريخ ووقت بداية الانتداب (توقيت مكة):</span>
+        <input type="datetime-local" id="startDateTime1" />
+        <div class="note">المنطقة الزمنية المستخدمة للحساب: مكة المكرمة (Asia/Riyadh)</div>
+      </div>
+
+      <button class="primary" id="calcEndBtn">احسب تاريخ نهاية الانتداب</button>
+
+      <div id="endResult" class="result-box"></div>
+    </div>
+
+    <!-- تبويب 2: الانتدابات -->
+    <div id="tab2" class="tab-content">
+      <div class="section">
+        <span class="label">مدة الانتداب (أيام من 2 إلى 5):</span>
+        <input type="number" id="days2" min="2" max="5" />
+      </div>
+
+      <div class="section">
+        <span class="label">اختر القطاع:</span>
+        <select id="sector2">
+          <option value="">اختر القطاع</option>
+          <option value="الأمن العام">الأمن العام</option>
+          <option value="قوات الطوارئ الخاصة">قوات الطوارئ الخاصة</option>
+          <option value="كراج الميكانيكي">كراج الميكانيكي</option>
+          <option value="الهلال الاحمر">الهلال الأحمر</option>
+          <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
+          <option value="حرس الحدود">حرس الحدود</option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="buildTab2">إنشاء النص</button>
+        <button class="primary" type="button" onclick="copyFrom('tab2Output')">نسخ</button>
+      </div>
+
+      <div class="section">
+        <span class="label">الناتج:</span>
+        <textarea id="tab2Output" readonly></textarea>
+      </div>
+    </div>
+
+    <!-- تبويب 3: قطع و انتهاء انتداب -->
+    <div id="tab3" class="tab-content">
+      <div class="section">
+        <span class="label">سبب القطع أو الانتهاء من الانتداب:</span>
+        <select id="reason3">
+          <option value="">اختر السبب</option>
+          <option value="انتهاء انتداب">انتهاء انتداب</option>
+          <option value="انهاء بسبب استقالة من قطاع ثانوي">انهاء بسبب استقالة من قطاع ثانوي</option>
+          <option value="انتهاء سد عجز">انتهاء سد عجز</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <span class="label">القطاع المنتدب إليه:</span>
+        <select id="sectorFrom3">
+          <option value="">اختر القطاع المنتدب إليه</option>
+          <option value="الأمن العام">الأمن العام</option>
+          <option value="قوات الطوارئ الخاصة">قوات الطوارئ الخاصة</option>
+          <option value="كراج الميكانيكي">كراج الميكانيكي</option>
+          <option value="الهلال الاحمر">الهلال الأحمر</option>
+          <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
+          <option value="حرس الحدود">حرس الحدود</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <span class="label">القطاع المطلوب الرجوع له:</span>
+        <select id="sectorTo3">
+          <option value="">اختر القطاع المطلوب الرجوع له</option>
+          <option value="الأمن العام">الأمن العام</option>
+          <option value="قوات الطوارئ الخاصة">قوات الطوارئ الخاصة</option>
+          <option value="كراج الميكانيكي">كراج الميكانيكي</option>
+          <option value="الهلال الاحمر">الهلال الأحمر</option>
+          <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
+          <option value="حرس الحدود">حرس الحدود</option>
+        </select>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="buildTab3">إنشاء النص</button>
+        <button class="primary" type="button" onclick="copyFrom('tab3Output')">نسخ</button>
+      </div>
+
+      <div class="section">
+        <span class="label">الناتج:</span>
+        <textarea id="tab3Output" readonly></textarea>
+      </div>
+    </div>
+
+    <!-- تبويب 4: إجازة خارجية -->
+    <div id="tab4" class="tab-content">
+      <div class="section">
+        <span class="label">الاسم و الكود:</span>
+        <input type="text" id="nameCode4" />
+      </div>
+
+      <div class="section">
+        <span class="label">مدة الإجازة (أيام):</span>
+        <input type="number" id="days4" min="1" />
+      </div>
+
+      <div class="section">
+        <span class="label">تاريخ بدء الإجازة:</span>
+        <input type="date" id="startDate4" />
+      </div>
+
+      <div class="section">
+        <span class="label">تاريخ انتهاء الإجازة:</span>
+        <input type="date" id="endDate4" />
+      </div>
+
+      <div class="section">
+        <span class="label">رابط الإجازة من قطاعك:</span>
+        <input type="text" id="link4" placeholder="ضع الرابط هنا (اختياري)" />
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="buildTab4">إنشاء النص</button>
+        <button class="primary" type="button" onclick="copyFrom('tab4Output')">نسخ</button>
+      </div>
+
+      <div class="section">
+        <span class="label">الناتج:</span>
+        <textarea id="tab4Output" readonly></textarea>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // تبديل التابات
+    document.querySelectorAll('.tab-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // حساب نهاية الانتداب (تاب 1)
+    document.getElementById('calcEndBtn').addEventListener('click',()=>{
+      const daysInput = document.getElementById('days1');
+      const startInput = document.getElementById('startDateTime1');
+      const resultEl = document.getElementById('endResult');
+
+      const days = parseInt(daysInput.value,10);
+      if (isNaN(days) || days < 2 || days > 5){
+        resultEl.textContent = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
+        return;
+      }
+      if (!startInput.value){
+        resultEl.textContent = '⚠️ الرجاء اختيار تاريخ ووقت البداية.';
+        return;
+      }
+
+      const start = new Date(startInput.value);
+      if (isNaN(start.getTime())){
+        resultEl.textContent = '⚠️ التاريخ المدخل غير صالح.';
+        return;
+      }
+
+      const end = new Date(start.getTime() + days*24*60*60*1000);
+
+      const options = {
+        year:'numeric',
+        month:'2-digit',
+        day:'2-digit',
+        hour:'2-digit',
+        minute:'2-digit',
+        hour12:true,
+        timeZone:'Asia/Riyadh'
+      };
+      const formatter = new Intl.DateTimeFormat('ar-SA', options);
+      const formatted = formatter.format(end);
+
+      resultEl.textContent = 'ينتهي الانتداب في: ' + formatted + ' (توقيت مكة المكرمة)';
+    });
+
+    // قوالب القطاعات (تاب 2)
+    const sectorTemplates = {
+      "الأمن العام":
+`الأمـن الـعـام  
+
+**انتداب إلى:**
+
+<@&1071933293865480192> 
+
+<@&1071933294473662505> 
+
+<@&1080964059974881451> 
+
+<@&1080964715972395098> 
+
+
+
+**المدة: 0 ايام  **
+
+-----------------------------------------------------
+
+قوات أمن الطرق 
+
+
+
+**انتداب إلى:**
+
+<@&1311828486079643689> 
+
+<@&1311829594982322237> 
+
+<@&1080964059974881451> 
+
+<@&1080964715972395098>
+
+
+
+**المدة: 0 ايام **`,
+      "قوات الطوارئ الخاصة":
+`قـوات الــطــوارئ الـخاصة  
+
+
+
+**انتداب إلى:**
+
+
+
+<@&1178115232468570144> 
+
+<@&1158320560246358076> 
+
+<@&1104013850480738374> 
+
+<@&1196926769761112085>
+
+
+
+**المدة: 0 ايام **`,
+      "كراج الميكانيكي":
+`كـراج الـمـيـكـانـيـكي
+
+
+
+**انتداب إلى:**
+
+
+
+<@&1187334915189133352> 
+
+<@&1071933343123386429> 
+
+<@&1092120226478428200> 
+
+<@&1092120390324731994> 
+
+
+
+**المدة: 0 ايام **`,
+      "الهلال الاحمر":
+`الهـلال الأحـمـر 
+
+
+
+**انتداب إلى:**
+
+
+
+<@&1071933358503903242> 
+
+<@&1071933359086911561> 
+
+<@&1092667422902862004> 
+
+<@&1153823182281777293> 
+
+
+
+**المدة: 0 ايام **`,
+      "قوات أمن المنشآت":
+`قـوات أمــن الــمــنــشــات  
+
+
+
+**انتداب إلى:**
+
+
+
+<@&1071933322470621295> 
+
+<@&1071933323380785153> 
+
+<@&1104013850480738374> 
+
+<@&1196926769761112085>
+
+
+
+**المدة: 0 ايام **`,
+      "حرس الحدود":
+`حـرس الـحـدود 
+
+
+
+**انتداب إلى:**
+
+<@&1333566912701136946> 
+
+<@&1333567000395386890> 
+
+<@&1333923910093242459> 
+
+<@&1349160426960846909> 
+
+
+
+**المدة: 0 ايام **`
+    };
+
+    // أدوار القطاعات (لتاب 3)
+    const sectorRoles = {
+      "الأمن العام":
+`<@&1071933293865480192> 
+<@&1071933294473662505> 
+<@&1080964059974881451> 
+<@&1080964715972395098>`,
+      "قوات الطوارئ الخاصة":
+`<@&1178115232468570144> 
+<@&1158320560246358076> 
+<@&1104013850480738374> 
+<@&1196926769761112085>`,
+      "كراج الميكانيكي":
+`<@&1187334915189133352> 
+<@&1071933343123386429> 
+<@&1092120226478428200> 
+<@&1092120390324731994>`,
+      "الهلال الاحمر":
+`<@&1071933358503903242> 
+<@&1071933359086911561> 
+<@&1092667422902862004> 
+<@&1153823182281777293>`,
+      "قوات أمن المنشآت":
+`<@&1071933322470621295> 
+<@&1071933323380785153> 
+<@&1104013850480738374> 
+<@&1196926769761112085>`,
+      "حرس الحدود":
+`<@&1333566912701136946> 
+<@&1333567000395386890> 
+<@&1333923910093242459> 
+<@&1349160426960846909>`
+    };
+
+    // إنشاء النص في تبويب 2
+    document.getElementById('buildTab2').addEventListener('click',()=>{
+      const days = parseInt(document.getElementById('days2').value,10);
+      const sector = document.getElementById('sector2').value;
+      const out = document.getElementById('tab2Output');
+
+      if (isNaN(days) || days < 2 || days > 5){
+        out.value = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
+        return;
+      }
+      if (!sector){
+        out.value = '⚠️ الرجاء اختيار القطاع.';
+        return;
+      }
+
+      const template = sectorTemplates[sector];
+      if (!template){
+        out.value = '';
+        return;
+      }
+
+      const text = template.replace(/المدة:\s*0/g, 'المدة: ' + days);
+      out.value = text;
+    });
+
+    // إنشاء النص في تبويب 3
+    document.getElementById('buildTab3').addEventListener('click',()=>{
+      const reason = document.getElementById('reason3').value;
+      const sectorFrom = document.getElementById('sectorFrom3').value;
+      const sectorTo = document.getElementById('sectorTo3').value;
+      const out = document.getElementById('tab3Output');
+
+      if (!reason){
+        out.value = '⚠️ الرجاء اختيار سبب القطع أو الانتهاء.';
+        return;
+      }
+      if (!sectorFrom || !sectorTo){
+        out.value = '⚠️ الرجاء اختيار القطاعين (المنتدب إليه والمطلوب الرجوع له).';
+        return;
+      }
+
+      const rolesFrom = sectorRoles[sectorFrom] || '';
+      const rolesTo = sectorRoles[sectorTo] || '';
+
+      let text = '';
+      text += reason + '\n\n';
+      text += 'انتهاء \n\n';
+      text += 'انتداب سد العجز من :\n\n';
+      text += 'Here القطاع المنتدب اليه:\n';
+      text += rolesFrom + '\n\n';
+      text += 'العودة  الى :\n\n';
+      text += 'Here القطاع المطلوب الرجوع له:\n';
+      text += rolesTo;
+
+      out.value = text;
+    });
+
+    // إنشاء النص في تبويب 4
+    document.getElementById('buildTab4').addEventListener('click',()=>{
+      const nameCode = document.getElementById('nameCode4').value.trim();
+      const days = document.getElementById('days4').value.trim();
+      const start = document.getElementById('startDate4').value.trim();
+      const end = document.getElementById('endDate4').value.trim();
+      const link = document.getElementById('link4').value.trim();
+      const out = document.getElementById('tab4Output');
+
+      const duration = days || '0';
+      const finalLink = link || 'الرابط هنا';
+
+      const text =
+`الاسم والكود: ${nameCode}
+
+**المدة: ${duration} **
+
+من تاريخ: ${start}
+
+إلى تاريخ: ${end}
+
+**رابط قبول الإجازة من قبل القطاع الأساسي: ${finalLink} **`;
+
+      out.value = text;
+    });
+
+    // زر النسخ (بدون Alerts)
+    function copyFrom(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      const text = el.value || el.textContent || '';
+      if (navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(text);
+      }else{
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        try { document.execCommand('copy'); } catch(e){}
+        document.body.removeChild(temp);
+      }
+    }
+    window.copyFrom = copyFrom;
+  </script>
+</body>
+</html>
