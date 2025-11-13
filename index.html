@@ -298,43 +298,46 @@
     });
 
     // حساب نهاية الانتداب (تاب 1)
-    document.getElementById('calcEndBtn').addEventListener('click',()=>{
-      const daysInput = document.getElementById('days1');
-      const startInput = document.getElementById('startDateTime1');
-      const resultEl = document.getElementById('endResult');
+document.getElementById('calcEndBtn').addEventListener('click',()=>{
+  const daysInput = document.getElementById('days1');
+  const startInput = document.getElementById('startDateTime1');
+  const resultEl = document.getElementById('endResult');
 
-      const days = parseInt(daysInput.value,10);
-      if (isNaN(days) || days < 2 || days > 5){
-        resultEl.textContent = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
-        return;
-      }
-      if (!startInput.value){
-        resultEl.textContent = '⚠️ الرجاء اختيار تاريخ ووقت البداية.';
-        return;
-      }
+  const days = parseInt(daysInput.value,10);
+  if (isNaN(days) || days < 2 || days > 5){
+    resultEl.textContent = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
+    return;
+  }
+  if (!startInput.value){
+    resultEl.textContent = '⚠️ الرجاء اختيار تاريخ ووقت البداية.';
+    return;
+  }
 
-      const start = new Date(startInput.value);
-      if (isNaN(start.getTime())){
-        resultEl.textContent = '⚠️ التاريخ المدخل غير صالح.';
-        return;
-      }
+  const start = new Date(startInput.value);
+  if (isNaN(start.getTime())){
+    resultEl.textContent = '⚠️ التاريخ المدخل غير صالح.';
+    return;
+  }
 
-      const end = new Date(start.getTime() + days*24*60*60*1000);
+  const end = new Date(start.getTime() + days*24*60*60*1000);
 
-      const options = {
-        year:'numeric',
-        month:'2-digit',
-        day:'2-digit',
-        hour:'2-digit',
-        minute:'2-digit',
-        hour12:true,
-        timeZone:'Asia/Riyadh'
-      };
-      const formatter = new Intl.DateTimeFormat('en-US', options);
-      const formatted = formatter.format(end);
+  const options = {
+    year:'numeric',
+    month:'2-digit',
+    day:'2-digit',
+    hour:'2-digit',
+    minute:'2-digit',
+    hour12:true,
+    timeZone:'Asia/Riyadh'
+  };
 
-      resultEl.textContent = 'ينتهي الانتداب في: ' + formatted + ' (توقيت مكة المكرمة)';
-    });
+  // 👇 English calendar, no Hijri, no Arabic numbers
+  const formatter = new Intl.DateTimeFormat('en-US', options);
+
+  const formatted = formatter.format(end);
+
+  resultEl.textContent = 'Ends on: ' + formatted + ' (Mecca Time)';
+});
 
     // قوالب القطاعات (تاب 2)
     const sectorTemplates = {
@@ -582,6 +585,7 @@
   </script>
 </body>
 </html>
+
 
 
 
