@@ -36,13 +36,18 @@
       text-align:center;
       font-size:24px;
     }
-    .tabs{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-bottom:16px;
-      justify-content:center;
-    }
+.tabs{
+  display:flex;
+  flex-wrap:nowrap;  /* يمنع نزول الأزرار تحت بعض */
+  gap:8px;
+  margin-bottom:16px;
+  justify-content:center;
+}
+
+.tab-btn{
+  flex:0 0 auto;     /* يمنع التمدد */
+  white-space:nowrap; /* يمنع التفاف النص */
+}
     .tab-btn{
       flex:1 1 45%;
       min-width:120px;
@@ -606,4 +611,5 @@
   </script>
 </body>
 </html>
+
 
