@@ -22,14 +22,15 @@
   align-items:flex-start;
   padding:20px;
 }
-    .app{
-      width:100%;
-      max-width:900px;
-      background:var(--card-bg);
-      border-radius:16px;
-      padding:20px 20px 30px;
-      box-shadow:0 0 25px #000; /* ظل أسود */
-    }
+.app{
+  width:100%;
+  max-width:900px;
+  background: rgba(5, 5, 31, 0.55); /* الشفافية هنا 0.55 */
+  backdrop-filter: blur(8px); /* يعطي شكل زجاجي فاخر */
+  border-radius:16px;
+  padding:20px 20px 30px;
+  box-shadow:0 0 25px #000;
+}
     h1{
       margin:0 0 16px;
       text-align:center;
@@ -605,3 +606,4 @@
   </script>
 </body>
 </html>
+
