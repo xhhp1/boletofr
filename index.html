@@ -10,7 +10,7 @@
       --card-bg:#05051f;
     }
     html {
-  font-size: 115%;
+  font-size: 120%;
 }
     *{box-sizing:border-box;}
     body{
@@ -22,7 +22,7 @@
       min-height:100vh;
       display:flex;
       justify-content:center;
-      align-items:center;
+      align-items:flex-start;
       padding:20px;
     }
     .app{
@@ -84,7 +84,6 @@
     input[type="number"],
     input[type="text"],
     input[type="datetime-local"],
-    input[type="date"],
     select,
     textarea{
       width:100%;
@@ -133,6 +132,21 @@
       opacity:0.8;
       margin-top:4px;
     }
+
+    /* 🔹 حاوية الـ dropdown مع حركة ديناميكية */
+    .select-wrap{
+      display:block;
+      position:relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .select-wrap:hover{
+      transform: translateY(-2px) scale(1.01);
+      box-shadow:0 0 14px rgba(0,0,0,0.9);
+    }
+    .select-wrap:focus-within{
+      transform: translateY(-3px) scale(1.03);
+      box-shadow:0 0 20px rgba(0,0,0,1);
+    }
   </style>
 
   <!-- 🔹 Flatpickr Dark Theme CSS -->
@@ -159,7 +173,6 @@
 
       <div class="section">
         <span class="label">تاريخ ووقت بداية الانتداب (توقيت مكة):</span>
-        <!-- نتركه datetime-local لكنه الآن مسيطر عليه بـ Flatpickr -->
         <input type="datetime-local" id="startDateTime1" />
       </div>
 
@@ -177,15 +190,17 @@
 
       <div class="section">
         <span class="label">اختر القطاع:</span>
-        <select id="sector2">
-          <option value="">اختر القطاع</option>
-          <option value="الأمن العام">الأمن العام</option>
-          <option value="قوات الطوارئ الخاصة">قوات الطوارئ الخاصة</option>
-          <option value="كراج الميكانيكي">كراج الميكانيكي</option>
-          <option value="الهلال الاحمر">الهلال الأحمر</option>
-          <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
-          <option value="حرس الحدود">حرس الحدود</option>
-        </select>
+        <div class="select-wrap">
+          <select id="sector2">
+            <option value="">اختر القطاع</option>
+            <option value="الأمن العام">الأمن العام</option>
+            <option value="قوات الطوارئ الخاصة">قوات الطوارئ الخاصة</option>
+            <option value="كراج الميكانيكي">كراج الميكانيكي</option>
+            <option value="الهلال الاحمر">الهلال الأحمر</option>
+            <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
+            <option value="حرس الحدود">حرس الحدود</option>
+          </select>
+        </div>
       </div>
 
       <div class="actions">
@@ -203,38 +218,44 @@
     <div id="tab3" class="tab-content">
       <div class="section">
         <span class="label">سبب القطع أو الانتهاء من الانتداب:</span>
-        <select id="reason3">
-          <option value="">اختر السبب</option>
-          <option value="انتهاء انتداب">انتهاء انتداب</option>
-          <option value="انهاء بسبب استقالة من قطاع ثانوي">انهاء بسبب استقالة من قطاع ثانوي</option>
-          <option value="انتهاء سد عجز">انتهاء سد عجز</option>
-        </select>
+        <div class="select-wrap">
+          <select id="reason3">
+            <option value="">اختر السبب</option>
+            <option value="انتهاء انتداب">انتهاء انتداب</option>
+            <option value="انهاء بسبب استقالة من قطاع ثانوي">انهاء بسبب استقالة من قطاع ثانوي</option>
+            <option value="انتهاء سد عجز">انتهاء سد عجز</option>
+          </select>
+        </div>
       </div>
 
       <div class="section">
         <span class="label">القطاع المنتدب إليه:</span>
-        <select id="sectorFrom3">
-          <option value="">اختر القطاع المنتدب إليه</option>
-          <option value="الأمن العام">الأمن العام</option>
-          <option value="قوات الطوارئ الخاصة">قوات الطوارئ الخاصة</option>
-          <option value="كراج الميكانيكي">كراج الميكانيكي</option>
-          <option value="الهلال الاحمر">الهلال الأحمر</option>
-          <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
-          <option value="حرس الحدود">حرس الحدود</option>
-        </select>
+        <div class="select-wrap">
+          <select id="sectorFrom3">
+            <option value="">اختر القطاع المنتدب إليه</option>
+            <option value="الأمن العام">الأمن العام</option>
+            <option value="قوات الطوارئ الخاصة">قوات الطوارئ الخاصة</option>
+            <option value="كراج الميكانيكي">كراج الميكانيكي</option>
+            <option value="الهلال الاحمر">الهلال الأحمر</option>
+            <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
+            <option value="حرس الحدود">حرس الحدود</option>
+          </select>
+        </div>
       </div>
 
       <div class="section">
         <span class="label">القطاع المطلوب الرجوع له:</span>
-        <select id="sectorTo3">
-          <option value="">اختر القطاع المطلوب الرجوع له</option>
-          <option value="الأمن العام">الأمن العام</option>
-          <option value="قوات الطوارئ الخاصة">قوات الطوارئ الخاصة</option>
-          <option value="كراج الميكانيكي">كراج الميكانيكي</option>
-          <option value="الهلال الاحمر">الهلال الأحمر</option>
-          <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
-          <option value="حرس الحدود">حرس الحدود</option>
-        </select>
+        <div class="select-wrap">
+          <select id="sectorTo3">
+            <option value="">اختر القطاع المطلوب الرجوع له</option>
+            <option value="الأمن العام">الأمن العام</option>
+            <option value="قوات الطوارئ الخاصة">قوات الطوارئ الخاصة</option>
+            <option value="كراج الميكانيكي">كراج الميكانيكي</option>
+            <option value="الهلال الاحمر">الهلال الأحمر</option>
+            <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
+            <option value="حرس الحدود">حرس الحدود</option>
+          </select>
+        </div>
       </div>
 
       <div class="actions">
@@ -262,12 +283,14 @@
 
       <div class="section">
         <span class="label">تاريخ بدء الإجازة:</span>
-        <input type="date" id="startDate4" />
+        <!-- 🔹 تغييرناها إلى text عشان Flatpickr -->
+        <input type="text" id="startDate4" placeholder="اختر تاريخ بدء الإجازة" />
       </div>
 
       <div class="section">
         <span class="label">تاريخ انتهاء الإجازة:</span>
-        <input type="date" id="endDate4" />
+        <!-- 🔹 برضه text مع نفس النظام -->
+        <input type="text" id="endDate4" placeholder="اختر تاريخ انتهاء الإجازة" />
       </div>
 
       <div class="section">
@@ -291,14 +314,22 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   <script>
-    // تفعيل Flatpickr على حقل بداية الانتداب
+    // تفعيل Flatpickr على حقل بداية الانتداب (تاب 1)
     flatpickr("#startDateTime1", {
       enableTime: true,
-      // نخلي القيمة بصيغة متوافقة مع datetime-local: 2025-11-13T12:55
-      dateFormat: "Y-m-d\\TH:i",
-      time_24hr: false,      // AM/PM
+      dateFormat: "Y-m-d\\TH:i",  // متوافق مع datetime-local
+      time_24hr: false,           // AM/PM
       defaultHour: 12,
       defaultMinute: 0
+    });
+
+    // 🔹 تفعيل Flatpickr على تواريخ الإجازة (تاب 4) – تاريخ فقط
+    flatpickr("#startDate4", {
+      dateFormat: "Y-m-d"
+    });
+
+    flatpickr("#endDate4", {
+      dateFormat: "Y-m-d"
     });
 
     // تبديل التابات
@@ -353,7 +384,6 @@
 
     // قوالب القطاعات (تاب 2)
     const sectorTemplates = {
-      // الأمن العام فقط بدون أمن الطرق
       "الأمن العام": `**انتداب إلى:**
 
 <@&1071933293865480192> 
@@ -463,7 +493,7 @@
       out.value = text;
     });
 
-    // تبويب 3: قطع و انتهاء انتداب — بصيغة الأمثلة اللي عطيتني
+    // تبويب 3: قطع و انتهاء انتداب — بصيغة الأمثلة
     document.getElementById('buildTab3').addEventListener('click',()=>{
       const reason = document.getElementById('reason3').value;
       const sectorFrom = document.getElementById('sectorFrom3').value;
@@ -556,4 +586,3 @@ rolesTo;
   </script>
 </body>
 </html>
-
