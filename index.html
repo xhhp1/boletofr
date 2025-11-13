@@ -330,7 +330,7 @@
         hour12:true,
         timeZone:'Asia/Riyadh'
       };
-      const formatter = new Intl.DateTimeFormat('ar-SA', options);
+      const formatter = new Intl.DateTimeFormat('en-US', options);
       const formatted = formatter.format(end);
 
       resultEl.textContent = 'ينتهي الانتداب في: ' + formatted + ' (توقيت مكة المكرمة)';
@@ -582,6 +582,7 @@
   </script>
 </body>
 </html>
+
 
 
 
