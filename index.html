@@ -280,61 +280,60 @@
     </div>
   </div>
 
-  <script>
-    // تبديل التابات
-    document.querySelectorAll('.tab-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
-      });
+<script>
+  // تبديل التابات
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
     });
+  });
 
-    // حساب نهاية الانتداب (تاب 1) – إنجليزي
-    document.getElementById('calcEndBtn').addEventListener('click',()=>{
-      const daysInput = document.getElementById('days1');
-      const startInput = document.getElementById('startDateTime1');
-      const resultEl = document.getElementById('endResult');
+  // حساب نهاية الانتداب (تاب 1) – إنجليزي
+  document.getElementById('calcEndBtn').addEventListener('click',()=>{
+    const daysInput = document.getElementById('days1');
+    const startInput = document.getElementById('startDateTime1');
+    const resultEl = document.getElementById('endResult');
 
-      const days = parseInt(daysInput.value,10);
-      if (isNaN(days) || days < 2 || days > 5){
-        resultEl.textContent = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
-        return;
-      }
-      if (!startInput.value){
-        resultEl.textContent = '⚠️ الرجاء اختيار تاريخ ووقت البداية.';
-        return;
-      }
+    const days = parseInt(daysInput.value,10);
+    if (isNaN(days) || days < 2 || days > 5){
+      resultEl.textContent = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
+      return;
+    }
+    if (!startInput.value){
+      resultEl.textContent = '⚠️ الرجاء اختيار تاريخ ووقت البداية.';
+      return;
+    }
 
-      const start = new Date(startInput.value);
-      if (isNaN(start.getTime())){
-        resultEl.textContent = '⚠️ التاريخ المدخل غير صالح.';
-        return;
-      }
+    const start = new Date(startInput.value);
+    if (isNaN(start.getTime())){
+      resultEl.textContent = '⚠️ التاريخ المدخل غير صالح.';
+      return;
+    }
 
-      const end = new Date(start.getTime() + days*24*60*60*1000);
+    const end = new Date(start.getTime() + days*24*60*60*1000);
 
-      const options = {
-        year:'numeric',
-        month:'2-digit',
-        day:'2-digit',
-        hour:'2-digit',
-        minute:'2-digit',
-        hour12:true,
-        timeZone:'Asia/Riyadh'
-      };
+    const options = {
+      year:'numeric',
+      month:'2-digit',
+      day:'2-digit',
+      hour:'2-digit',
+      minute:'2-digit',
+      hour12:true,
+      timeZone:'Asia/Riyadh'
+    };
 
-      const formatter = new Intl.DateTimeFormat('en-US', options);
-      const formatted = formatter.format(end);
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    const formatted = formatter.format(end);
 
-      resultEl.textContent = 'Ends on: ' + formatted + ' (Mecca Time)';
-    });
+    resultEl.textContent = 'Ends on: ' + formatted + ' (Mecca Time)';
+  });
 
-    // قوالب القطاعات (تاب 2)
-    const sectorTemplates = {
-      // ✅ الأمن العام فقط بدون أمن الطرق
-      "الأمن العام": `**انتداب إلى:**
+  // قوالب القطاعات (تاب 2)
+  const sectorTemplates = {
+    "الأمن العام": `**انتداب إلى:**
 
 <@&1071933293865480192> 
 <@&1071933294473662505> 
@@ -342,7 +341,7 @@
 <@&1080964715972395098> 
 
 **المدة: 0 ايام  **`,
-      "قوات الطوارئ الخاصة": `**انتداب إلى:**
+    "قوات الطوارئ الخاصة": `**انتداب إلى:**
 
 <@&1178115232468570144> 
 <@&1158320560246358076> 
@@ -350,7 +349,7 @@
 <@&1196926769761112085>
 
 **المدة: 0 ايام **`,
-      "كراج الميكانيكي": `**انتداب إلى:**
+    "كراج الميكانيكي": `**انتداب إلى:**
 
 <@&1187334915189133352> 
 <@&1071933343123386429> 
@@ -358,7 +357,7 @@
 <@&1092120390324731994> 
 
 **المدة: 0 ايام **`,
-      "الهلال الاحمر": `**انتداب إلى:**
+    "الهلال الاحمر": `**انتداب إلى:**
 
 <@&1071933358503903242> 
 <@&1071933359086911561> 
@@ -366,7 +365,7 @@
 <@&1153823182281777293> 
 
 **المدة: 0 ايام **`,
-      "قوات أمن المنشآت": `**انتداب إلى:**
+    "قوات أمن المنشآت": `**انتداب إلى:**
 
 <@&1071933322470621295> 
 <@&1071933323380785153> 
@@ -374,7 +373,7 @@
 <@&1196926769761112085>
 
 **المدة: 0 ايام **`,
-      "حرس الحدود": `**انتداب إلى:**
+    "حرس الحدود": `**انتداب إلى:**
 
 <@&1333566912701136946> 
 <@&1333567000395386890> 
@@ -382,94 +381,131 @@
 <@&1349160426960846909> 
 
 **المدة: 0 ايام **`
-    };
+  };
 
-    // أدوار القطاعات (لتاب 3) — حالياً مو مستخدمة بعد التبسيط، بس أخليها لو حبيت ترجع لها
-    const sectorRoles = {
-      "الأمن العام":
+  // أدوار القطاعات (لتاب 3)
+  const sectorRoles = {
+    "الأمن العام":
 `<@&1071933293865480192> 
 <@&1071933294473662505> 
 <@&1080964059974881451> 
 <@&1080964715972395098>`,
-      "قوات الطوارئ الخاصة":
+    "قوات الطوارئ الخاصة":
 `<@&1178115232468570144> 
 <@&1158320560246358076> 
 <@&1104013850480738374> 
 <@&1196926769761112085>`,
-      "كراج الميكانيكي":
+    "كراج الميكانيكي":
 `<@&1187334915189133352> 
 <@&1071933343123386429> 
 <@&1092120226478428200> 
 <@&1092120390324731994>`,
-      "الهلال الاحمر":
+    "الهلال الاحمر":
 `<@&1071933358503903242> 
 <@&1071933359086911561> 
 <@&1092667422902862004> 
 <@&1153823182281777293>`,
-      "قوات أمن المنشآت":
+    "قوات أمن المنشآت":
 `<@&1071933322470621295> 
 <@&1071933323380785153> 
 <@&1104013850480738374> 
 <@&1196926769761112085>`,
-      "حرس الحدود":
+    "حرس الحدود":
 `<@&1333566912701136946> 
 <@&1333567000395386890> 
 <@&1333923910093242459> 
 <@&1349160426960846909>`
-    };
+  };
 
-    // إنشاء النص في تبويب 2
-    document.getElementById('buildTab2').addEventListener('click',()=>{
-      const days = parseInt(document.getElementById('days2').value,10);
-      const sector = document.getElementById('sector2').value;
-      const out = document.getElementById('tab2Output');
+  // إنشاء النص في تبويب 2
+  document.getElementById('buildTab2').addEventListener('click',()=>{
+    const days = parseInt(document.getElementById('days2').value,10);
+    const sector = document.getElementById('sector2').value;
+    const out = document.getElementById('tab2Output');
 
-      if (isNaN(days) || days < 2 || days > 5){
-        out.value = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
-        return;
-      }
-      if (!sector){
-        out.value = '⚠️ الرجاء اختيار القطاع.';
-        return;
-      }
+    if (isNaN(days) || days < 2 || days > 5){
+      out.value = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
+      return;
+    }
+    if (!sector){
+      out.value = '⚠️ الرجاء اختيار القطاع.';
+      return;
+    }
 
-      const template = sectorTemplates[sector];
-      if (!template){
-        out.value = '';
-        return;
-      }
+    const template = sectorTemplates[sector];
+    if (!template){
+      out.value = '';
+      return;
+    }
 
-      const text = template.replace(/المدة:\s*0/g, 'المدة: ' + days);
-      out.value = text;
-    });
+    const text = template.replace(/المدة:\s*0/g, 'المدة: ' + days);
+    out.value = text;
+  });
 
-    // ✅ تبويب 3: فقط يطبع السبب اللي اختاره المستخدم
-    document.getElementById('buildTab3').addEventListener('click',()=>{
-      const reason = document.getElementById('reason3').value;
-      const out = document.getElementById('tab3Output');
+  // ✅ تبويب 3: قطع و انتهاء انتداب — بنفس أمثلتك
+  document.getElementById('buildTab3').addEventListener('click',()=>{
+    const reason = document.getElementById('reason3').value;
+    const sectorFrom = document.getElementById('sectorFrom3').value;
+    const sectorTo   = document.getElementById('sectorTo3').value;
+    const out = document.getElementById('tab3Output');
 
-      if (!reason){
-        out.value = '⚠️ الرجاء اختيار سبب القطع أو الانتهاء.';
-        return;
-      }
+    if (!reason){
+      out.value = '⚠️ الرجاء اختيار سبب القطع أو الانتهاء.';
+      return;
+    }
+    if (!sectorFrom || !sectorTo){
+      out.value = '⚠️ الرجاء اختيار القطاعين (المنتدب إليه والمطلوب الرجوع له).';
+      return;
+    }
 
-      // فقط السبب، بدون أي شيء إضافي
-      out.value = reason;
-    });
+    const rolesFrom = sectorRoles[sectorFrom] || '';
+    const rolesTo   = sectorRoles[sectorTo]   || '';
 
-    // إنشاء النص في تبويب 4
-    document.getElementById('buildTab4').addEventListener('click',()=>{
-      const nameCode = document.getElementById('nameCode4').value.trim();
-      const days = document.getElementById('days4').value.trim();
-      const start = document.getElementById('startDate4').value.trim();
-      const end = document.getElementById('endDate4').value.trim();
-      const link = document.getElementById('link4').value.trim();
-      const out = document.getElementById('tab4Output');
+    let text = '';
 
-      const duration = days || '0';
-      const finalLink = link || 'الرابط هنا';
+    if (reason === 'انتهاء انتداب'){
+      // مثال رقم 1
+      text =
+"1- `انتهاء انتداب من :`\n\n" +
+rolesFrom + "\n \n" +
+"`العودة الى :`\n\n" +
+rolesTo;
+    } else if (reason === 'انهاء بسبب استقالة من قطاع ثانوي'){
+      // مثال رقم 2
+      text =
+"2- قطع انتداب من :\n\n" +
+rolesFrom + "\n\n" +
+"العودة الى :\n\n" +
+rolesTo + "\n\n" +
+"السبب : استقاله من القطاع الثانوي";
+    } else if (reason === 'انتهاء سد عجز'){
+      // مثال رقم 3
+      text =
+"3- انتهاء انتداب سد العجز من :\n\n" +
+rolesFrom + "\n\n\n" +
+"العودة  الى :\n" +
+rolesTo;
+    } else {
+      // احتياط
+      text = reason;
+    }
 
-      const text =
+    out.value = text;
+  });
+
+  // إنشاء النص في تبويب 4
+  document.getElementById('buildTab4').addEventListener('click',()=>{
+    const nameCode = document.getElementById('nameCode4').value.trim();
+    const days = document.getElementById('days4').value.trim();
+    const start = document.getElementById('startDate4').value.trim();
+    const end = document.getElementById('endDate4').value.trim();
+    const link = document.getElementById('link4').value.trim();
+    const out = document.getElementById('tab4Output');
+
+    const duration = days || '0';
+    const finalLink = link || 'الرابط هنا';
+
+    const text =
 `الاسم والكود: ${nameCode}
 
 **المدة: ${duration} **
@@ -480,26 +516,27 @@
 
 **رابط قبول الإجازة من قبل القطاع الأساسي: ${finalLink} **`;
 
-      out.value = text;
-    });
+    out.value = text;
+  });
 
-    // زر النسخ (بدون Alerts)
-    function copyFrom(id){
-      const el = document.getElementById(id);
-      if (!el) return;
-      const text = el.value || el.textContent || '';
-      if (navigator.clipboard && window.isSecureContext){
-        navigator.clipboard.writeText(text);
-      }else{
-        const temp = document.createElement('textarea');
-        temp.value = text;
-        document.body.appendChild(temp);
-        temp.select();
-        try { document.execCommand('copy'); } catch(e){}
-        document.body.removeChild(temp);
-      }
+  // زر النسخ (بدون Alerts)
+  function copyFrom(id){
+    const el = document.getElementById(id);
+    if (!el) return;
+    const text = el.value || el.textContent || '';
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text);
+    }else{
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      try { document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(temp);
     }
-    window.copyFrom = copyFrom;
-  </script>
+  }
+  window.copyFrom = copyFrom;
+</script>
 </body>
 </html>
+
