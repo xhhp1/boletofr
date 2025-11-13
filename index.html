@@ -6,50 +6,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
-      --primary:#0e0edd;   /* اللون الأزرق الغامق اللي طلبته */
+      --primary:#0e0edd;   /* اللون الأزرق الغامق */
       --card-bg:#05051f;
     }
     *{box-sizing:border-box;}
     body{
-  margin:0;
-  font-family:"Tahoma",Arial,sans-serif;
-  background: url("https://raw.githubusercontent.com/xhhp1/FRIMAGE/main/IMAGE.PNG.jpeg") no-repeat center center fixed;
-  background-size: cover;
-  color:#fff;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  padding:20px;
-}
-.app{
-  width:100%;
-  max-width:900px;
-  background: rgba(5, 5, 31, 0.55); /* الشفافية هنا 0.55 */
-  backdrop-filter: blur(8px); /* يعطي شكل زجاجي فاخر */
-  border-radius:16px;
-  padding:20px 20px 30px;
-  box-shadow:0 0 25px #000;
-}
+      margin:0;
+      font-family:"Tahoma",Arial,sans-serif;
+      background: url("https://raw.githubusercontent.com/xhhp1/FRIMAGE/main/IMAGE.PNG.jpeg") no-repeat center center fixed;
+      background-size: cover;
+      color:#fff;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:20px;
+    }
+    .app{
+      width:100%;
+      max-width:900px;
+      background: rgba(5, 5, 31, 0.55); /* شفاف */
+      backdrop-filter: blur(8px);
+      border-radius:16px;
+      padding:20px 20px 30px;
+      box-shadow:0 0 25px #000;
+    }
     h1{
       margin:0 0 16px;
       text-align:center;
       font-size:24px;
     }
-.tabs{
-  display:flex;
-  flex-wrap:nowrap;  /* يمنع نزول الأزرار تحت بعض */
-  gap:8px;
-  margin-bottom:16px;
-  justify-content:center;
-}
-
-.tab-btn{
-  flex:0 0 auto;     /* يمنع التمدد */
-  white-space:nowrap; /* يمنع التفاف النص */
-}
+    .tabs{
+      display:flex;
+      flex-wrap:nowrap;  /* أزرار التابات أفقية */
+      gap:8px;
+      margin-bottom:16px;
+      justify-content:center;
+    }
     .tab-btn{
-      flex:1 1 45%;
+      flex:0 0 auto;
       min-width:120px;
       border:none;
       border-radius:999px;
@@ -297,52 +292,50 @@
       });
     });
 
-    // حساب نهاية الانتداب (تاب 1)
-document.getElementById('calcEndBtn').addEventListener('click',()=>{
-  const daysInput = document.getElementById('days1');
-  const startInput = document.getElementById('startDateTime1');
-  const resultEl = document.getElementById('endResult');
+    // حساب نهاية الانتداب (تاب 1) – إنجليزي
+    document.getElementById('calcEndBtn').addEventListener('click',()=>{
+      const daysInput = document.getElementById('days1');
+      const startInput = document.getElementById('startDateTime1');
+      const resultEl = document.getElementById('endResult');
 
-  const days = parseInt(daysInput.value,10);
-  if (isNaN(days) || days < 2 || days > 5){
-    resultEl.textContent = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
-    return;
-  }
-  if (!startInput.value){
-    resultEl.textContent = '⚠️ الرجاء اختيار تاريخ ووقت البداية.';
-    return;
-  }
+      const days = parseInt(daysInput.value,10);
+      if (isNaN(days) || days < 2 || days > 5){
+        resultEl.textContent = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
+        return;
+      }
+      if (!startInput.value){
+        resultEl.textContent = '⚠️ الرجاء اختيار تاريخ ووقت البداية.';
+        return;
+      }
 
-  const start = new Date(startInput.value);
-  if (isNaN(start.getTime())){
-    resultEl.textContent = '⚠️ التاريخ المدخل غير صالح.';
-    return;
-  }
+      const start = new Date(startInput.value);
+      if (isNaN(start.getTime())){
+        resultEl.textContent = '⚠️ التاريخ المدخل غير صالح.';
+        return;
+      }
 
-  const end = new Date(start.getTime() + days*24*60*60*1000);
+      const end = new Date(start.getTime() + days*24*60*60*1000);
 
-  const options = {
-    year:'numeric',
-    month:'2-digit',
-    day:'2-digit',
-    hour:'2-digit',
-    minute:'2-digit',
-    hour12:true,
-    timeZone:'Asia/Riyadh'
-  };
+      const options = {
+        year:'numeric',
+        month:'2-digit',
+        day:'2-digit',
+        hour:'2-digit',
+        minute:'2-digit',
+        hour12:true,
+        timeZone:'Asia/Riyadh'
+      };
 
-  // 👇 English calendar, no Hijri, no Arabic numbers
-  const formatter = new Intl.DateTimeFormat('en-US', options);
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      const formatted = formatter.format(end);
 
-  const formatted = formatter.format(end);
-
-  resultEl.textContent = 'Ends on: ' + formatted + ' (Mecca Time)';
-});
+      resultEl.textContent = 'Ends on: ' + formatted + ' (Mecca Time)';
+    });
 
     // قوالب القطاعات (تاب 2)
     const sectorTemplates = {
-      "الأمن العام":
-  
+      "الأمن العام": `الأمـن الـعـام  
+
 **انتداب إلى:**
 
 <@&1071933293865480192> 
@@ -350,14 +343,11 @@ document.getElementById('calcEndBtn').addEventListener('click',()=>{
 <@&1080964059974881451> 
 <@&1080964715972395098> 
 
-
-
 **المدة: 0 ايام  **
 
+-----------------------------------------------------
 
-
-
-
+قوات أمن الطرق 
 
 **انتداب إلى:**
 
@@ -366,84 +356,55 @@ document.getElementById('calcEndBtn').addEventListener('click',()=>{
 <@&1080964059974881451> 
 <@&1080964715972395098>
 
-
-
 **المدة: 0 ايام **`,
-      "قوات الطوارئ الخاصة":
-
+      "قوات الطوارئ الخاصة": `قـوات الــطــوارئ الـخاصة  
 
 **انتداب إلى:**
-
-
 
 <@&1178115232468570144> 
 <@&1158320560246358076> 
 <@&1104013850480738374> 
 <@&1196926769761112085>
 
-
-
 **المدة: 0 ايام **`,
-      "كراج الميكانيكي":
-
-
+      "كراج الميكانيكي": `كـراج الـمـيـكـانـيـكي
 
 **انتداب إلى:**
-
 
 <@&1187334915189133352> 
 <@&1071933343123386429> 
 <@&1092120226478428200> 
 <@&1092120390324731994> 
 
-
-
 **المدة: 0 ايام **`,
-      "الهلال الاحمر":
-
-
-
+      "الهلال الاحمر": `الهـلال الأحـمـر 
 
 **انتداب إلى:**
-
 
 <@&1071933358503903242> 
 <@&1071933359086911561> 
 <@&1092667422902862004> 
 <@&1153823182281777293> 
 
-
-
 **المدة: 0 ايام **`,
-      "قوات أمن المنشآت":
-`قـوات أمــن الــمــنــشــات  
-
-
+      "قوات أمن المنشآت": `قـوات أمــن الــمــنــشــات  
 
 **انتداب إلى:**
-
-
 
 <@&1071933322470621295> 
 <@&1071933323380785153> 
 <@&1104013850480738374> 
 <@&1196926769761112085>
 
-
-
 **المدة: 0 ايام **`,
-      "حرس الحدود":
-
-
-
+      "حرس الحدود": `حـرس الـحـدود 
 
 **انتداب إلى:**
+
 <@&1333566912701136946> 
 <@&1333567000395386890> 
-<@&1333923910093242459>
+<@&1333923910093242459> 
 <@&1349160426960846909> 
-
-
 
 **المدة: 0 ايام **`
     };
@@ -585,8 +546,4 @@ document.getElementById('calcEndBtn').addEventListener('click',()=>{
   </script>
 </body>
 </html>
-
-
-
-
 
