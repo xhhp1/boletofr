@@ -11,8 +11,8 @@
     }
     
   body, input, select, textarea, button, .label, .tab-btn, {
-  font-size: 102% !important;
-}
+    font-size: 102% !important;
+  }
     *{box-sizing:border-box;}
     body{
       margin:0;
@@ -27,41 +27,38 @@
       padding:20px;
     }
     .app{
-  width:100%;
-  max-width:900px;
-  background: rgba(5, 5, 31, 0.55);
-  backdrop-filter: blur(8px);
-  border-radius:16px;
-  padding:20px 20px 30px;
-  box-shadow:0 0 25px #000;
-
-  /* ✨ NEW — smooth height animation */
-  transition: height 0.25s ease, padding 0.25s ease;
-}
+      width:100%;
+      max-width:900px;
+      background: rgba(5, 5, 31, 0.55);
+      backdrop-filter: blur(8px);
+      border-radius:16px;
+      padding:20px 20px 30px;
+      box-shadow:0 0 25px #000;
+      transition: height 0.25s ease, padding 0.25s ease;
+    }
     h1{
       margin:0 0 16px;
       text-align:center;
       font-size:24px;
     }
-.tab-content{
-  opacity:0;
-  max-height:0;
-  overflow:hidden;
-  transition: opacity 0.25s ease, max-height 0.25s ease;
-}
-
-.tab-content.active{
-  opacity:1;
-  max-height:2000px; /* enough for all tabs */
-}
-.tabs{
-  display:flex;
-  flex-wrap:nowrap;
-  gap:8px;
-  margin-bottom:16px;
-  justify-content:center;   /* المركز */
-  margin-inline:auto;       /* خليه فعلاً في النص */
-}
+    .tab-content{
+      opacity:0;
+      max-height:0;
+      overflow:hidden;
+      transition: opacity 0.25s ease, max-height 0.25s ease;
+    }
+    .tab-content.active{
+      opacity:1;
+      max-height:2000px;
+    }
+    .tabs{
+      display:flex;
+      flex-wrap:nowrap;
+      gap:8px;
+      margin-bottom:16px;
+      justify-content:center;
+      margin-inline:auto;
+    }
     .tab-btn{
       direction: ltr;
       flex:0 0 auto;
@@ -150,7 +147,6 @@
       margin-top:4px;
     }
 
-    /* 🔹 حاوية الـ dropdown مع حركة ديناميكية */
     .select-wrap{
       display:block;
       position:relative;
@@ -164,24 +160,31 @@
       transform: translateY(-3px) scale(1.03);
       box-shadow:0 0 20px rgba(0,0,0,1);
     }
+
+    #fixedHoursLabel{
+      display:none;
+      font-weight:bold;
+      margin-top:4px;
+    }
   </style>
 
-  <!-- 🔹 Flatpickr Dark Theme CSS -->
   <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
 </head>
 <body>
   <div class="app">
+
     <h1>✔️ Certified Players ✔️</h1>
 
-    <!-- أزرار التابات -->
     <div class="tabs">
       <button class="tab-btn active" data-tab="tab1">مدة الانتداب</button>
       <button class="tab-btn" data-tab="tab2">الانتدابات</button>
       <button class="tab-btn" data-tab="tab3">قطع و انتهاء انتداب</button>
       <button class="tab-btn" data-tab="tab4">إجازة خارجية</button>
+      <!-- ✅ التاب الخامس الجديد -->
+      <button class="tab-btn" data-tab="tab5">حساب استحقاق الانتداب</button>
     </div>
 
-    <!-- تبويب 1: مدة الانتداب -->
+    <!-- تبويب 1 -->
     <div id="tab1" class="tab-content active">
       <div class="section">
         <span class="label">مدة انتدابك بالأيام (من 2 إلى 5) :</span>
@@ -200,9 +203,10 @@
 
     <!-- تبويب 2: الانتدابات -->
     <div id="tab2" class="tab-content">
-      <div class="section">
-        <span class="label">مدة الانتداب (أيام من 2 إلى 5):</span>
+      <div class="section" id="days2Section">
+        <span class="label" id="days2Label">مدة الانتداب (أيام من 2 إلى 5):</span>
         <input type="number" id="days2" min="2" max="5" />
+        <span class="label" id="fixedHoursLabel">** المدة : 3 ساعات **</span>
       </div>
 
       <div class="section">
@@ -216,8 +220,17 @@
             <option value="الهلال الاحمر">الهلال الأحمر</option>
             <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
             <option value="حرس الحدود">حرس الحدود</option>
+            <option value="قوات أمن الطرق">قوات أمن الطرق</option>
           </select>
         </div>
+      </div>
+
+      <!-- Checkbox انتداب سد عجز -->
+      <div class="section">
+        <label class="label">
+          <input type="checkbox" id="shortage2" style="margin-left:6px;">
+          انتداب سد عجز
+        </label>
       </div>
 
       <div class="actions">
@@ -241,6 +254,7 @@
             <option value="انتهاء انتداب">انتهاء انتداب</option>
             <option value="انهاء بسبب استقالة من قطاع ثانوي">انهاء بسبب استقالة من قطاع ثانوي</option>
             <option value="انتهاء سد عجز">انتهاء سد عجز</option>
+            <option value="انهاء انتداب بسبب اجازة خارجية">انهاء انتداب بسبب اجازة خارجية</option>
           </select>
         </div>
       </div>
@@ -256,6 +270,7 @@
             <option value="الهلال الاحمر">الهلال الأحمر</option>
             <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
             <option value="حرس الحدود">حرس الحدود</option>
+            <option value="قوات أمن الطرق">قوات أمن الطرق</option>
           </select>
         </div>
       </div>
@@ -271,6 +286,7 @@
             <option value="الهلال الاحمر">الهلال الأحمر</option>
             <option value="قوات أمن المنشآت">قوات أمن المنشآت</option>
             <option value="حرس الحدود">حرس الحدود</option>
+            <option value="قوات أمن الطرق">قوات أمن الطرق</option>
           </select>
         </div>
       </div>
@@ -289,8 +305,13 @@
     <!-- تبويب 4: إجازة خارجية -->
     <div id="tab4" class="tab-content">
       <div class="section">
-        <span class="label">الاسم و الكود:</span>
-        <input type="text" id="nameCode4" />
+        <span class="label"> الكوبي ايدي :</span>
+        <input type="text" id="copyId4" placeholder=" الصق الكوبي ايدي هنا مثال : 853047739385774092 " />
+      </div>
+
+      <div class="section">
+        <span class="label">الاسم و الكود :</span>
+<input type="text" id="nameCode4" placeholder=" مثال : حمد بن عسكر [CD | G-020] " />
       </div>
 
       <div class="section">
@@ -300,13 +321,11 @@
 
       <div class="section">
         <span class="label">تاريخ بدء الإجازة:</span>
-        <!-- 🔹 تغييرناها إلى text عشان Flatpickr -->
         <input type="text" id="startDate4" placeholder="اختر تاريخ بدء الإجازة" />
       </div>
 
       <div class="section">
         <span class="label">تاريخ انتهاء الإجازة:</span>
-        <!-- 🔹 برضه text مع نفس النظام -->
         <input type="text" id="endDate4" placeholder="اختر تاريخ انتهاء الإجازة" />
       </div>
 
@@ -325,31 +344,58 @@
         <textarea id="tab4Output" readonly></textarea>
       </div>
     </div>
+
+    <!-- ✅ تبويب 5: حساب استحقاق الانتداب -->
+    <div id="tab5" class="tab-content">
+      <div class="section">
+        <span class="label">اختر رتبتك في المعتمد:</span>
+        <div class="select-wrap">
+          <select id="grade5">
+            <option value="">اختر رتبة المعتمد</option>
+            <option value="CD">CD (8 أيام)</option>
+            <option value="CC">CC (6 أيام)</option>
+            <option value="CB">CB (4 أيام)</option>
+            <option value="CA">CA (3 أيام)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section">
+        <span class="label">تاريخ نهاية انتداب :</span>
+        <input type="datetime-local" id="endDateTime5" />
+      </div>
+
+      <button class="primary" id="calcEntitlementBtn">احسب تاريخ استحقاق الانتداب</button>
+
+      <div id="entitlementResult5" class="result-box"></div>
+    </div>
+
   </div>
 
-  <!-- 🔹 Flatpickr JS -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   <script>
-    // تفعيل Flatpickr على حقل بداية الانتداب (تاب 1)
+    // Flatpickr
     flatpickr("#startDateTime1", {
       enableTime: true,
-      dateFormat: "Y-m-d\\TH:i",  // متوافق مع datetime-local
-      time_24hr: false,           // AM/PM
+      dateFormat: "Y-m-d\\TH:i",
+      time_24hr: false,
+      defaultHour: 12,
+      defaultMinute: 0
+    });
+    flatpickr("#startDate4", { dateFormat: "Y-m-d" });
+    flatpickr("#endDate4", { dateFormat: "Y-m-d" });
+
+    // Flatpickr for tab 5 datetime
+    flatpickr("#endDateTime5", {
+      enableTime: true,
+      dateFormat: "Y-m-d\\TH:i",
+      time_24hr: false,
       defaultHour: 12,
       defaultMinute: 0
     });
 
-    // 🔹 تفعيل Flatpickr على تواريخ الإجازة (تاب 4) – تاريخ فقط
-    flatpickr("#startDate4", {
-      dateFormat: "Y-m-d"
-    });
-
-    flatpickr("#endDate4", {
-      dateFormat: "Y-m-d"
-    });
-
-    // تبديل التابات
+    // Switch tabs
     document.querySelectorAll('.tab-btn').forEach(btn=>{
       btn.addEventListener('click',()=>{
         document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -359,7 +405,7 @@
       });
     });
 
-    // حساب نهاية الانتداب (تاب 1) – إنجليزي
+    // Tab 1 – calculate end date
     document.getElementById('calcEndBtn').addEventListener('click',()=>{
       const daysInput = document.getElementById('days1');
       const startInput = document.getElementById('startDateTime1');
@@ -396,10 +442,10 @@
       const formatter = new Intl.DateTimeFormat('en-US', options);
       const formatted = formatter.format(end);
 
-      resultEl.textContent = 'Ends on: ' + formatted + ' (Mecca Time)';
+resultEl.textContent = 'تاريخ انتهاء الانتداب : ' + formatted;
     });
 
-    // قوالب القطاعات (تاب 2)
+    // Templates (tab 2)
     const sectorTemplates = {
       "الأمن العام": `**انتداب إلى:**
 
@@ -408,7 +454,7 @@
 <@&1080964059974881451> 
 <@&1080964715972395098> 
 
-**المدة: 0 ايام  **`,
+**المدة: 0 ايام **`,
       "قوات الطوارئ الخاصة": `**انتداب إلى:**
 
 <@&1178115232468570144> 
@@ -448,10 +494,18 @@
 <@&1333923910093242459> 
 <@&1349160426960846909> 
 
+**المدة: 0 ايام **`,
+      "قوات أمن الطرق": `**انتداب إلى:**
+
+<@&1311828486079643689> 
+<@&1311829594982322237> 
+<@&1080964059974881451> 
+<@&1080964715972395098> 
+
 **المدة: 0 ايام **`
     };
 
-    // أدوار القطاعات (لتاب 3)
+    // Roles (tab 3)
     const sectorRoles = {
       "الأمن العام":
 `<@&1071933293865480192> 
@@ -482,19 +536,40 @@
 `<@&1333566912701136946> 
 <@&1333567000395386890> 
 <@&1333923910093242459> 
-<@&1349160426960846909>`
+<@&1349160426960846909>`,
+      "قوات أمن الطرق":
+`<@&1311828486079643689> 
+<@&1311829594982322237> 
+<@&1080964059974881451> 
+<@&1080964715972395098>`
     };
 
-    // إنشاء النص في تبويب 2
+    // Toggle UI for انتداب سد عجز in tab 2
+    const shortageCheckbox = document.getElementById('shortage2');
+    const days2Input = document.getElementById('days2');
+    const days2Label = document.getElementById('days2Label');
+    const fixedHoursLabel = document.getElementById('fixedHoursLabel');
+
+    shortageCheckbox.addEventListener('change', () => {
+      if (shortageCheckbox.checked){
+        // hide days input, show fixed 3 hours label
+        days2Input.style.display = 'none';
+        days2Label.style.display = 'none';
+        fixedHoursLabel.style.display = 'block';
+      } else {
+        days2Input.style.display = 'block';
+        days2Label.style.display = 'block';
+        fixedHoursLabel.style.display = 'none';
+      }
+    });
+
+    // Tab 2 – build text
     document.getElementById('buildTab2').addEventListener('click',()=>{
       const days = parseInt(document.getElementById('days2').value,10);
       const sector = document.getElementById('sector2').value;
       const out = document.getElementById('tab2Output');
+      const isShortage = shortageCheckbox.checked;
 
-      if (isNaN(days) || days < 2 || days > 5){
-        out.value = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
-        return;
-      }
       if (!sector){
         out.value = '⚠️ الرجاء اختيار القطاع.';
         return;
@@ -506,11 +581,25 @@
         return;
       }
 
-      const text = template.replace(/المدة:\s*0/g, 'المدة: ' + days);
+      let text = template;
+
+      if (isShortage){
+        // انتداب سد عجز – مدة ثابتة 3 ساعات
+        text = text
+          .replace('انتداب إلى:', 'انتداب سد عجز إلى:')
+          .replace(/المدة:\s*0 ايام/g, 'المدة : 3 ساعات');
+      } else {
+        if (isNaN(days) || days < 2 || days > 5){
+          out.value = '⚠️ الرجاء إدخال مدة بين 2 و 5 أيام.';
+          return;
+        }
+        text = text.replace(/المدة:\s*0 ايام/g, 'المدة : ' + days + ' ايام');
+      }
+
       out.value = text;
     });
 
-    // تبويب 3: قطع و انتهاء انتداب — بصيغة الأمثلة
+    // Tab 3 – build text
     document.getElementById('buildTab3').addEventListener('click',()=>{
       const reason = document.getElementById('reason3').value;
       const sectorFrom = document.getElementById('sectorFrom3').value;
@@ -545,11 +634,19 @@ rolesFrom + "\n\n" +
 rolesTo + "\n\n" +
 "السبب : استقاله من القطاع الثانوي";
       } else if (reason === 'انتهاء سد عجز'){
+        // بدون سطر مدة هنا
         text =
 "3- انتهاء انتداب سد العجز من :\n\n" +
 rolesFrom + "\n\n\n" +
 "العودة  الى :\n" +
 rolesTo;
+      } else if (reason === 'انهاء انتداب بسبب اجازة خارجية'){
+        text =
+"4- قطع انتداب من :\n\n" +
+rolesFrom + "\n\n" +
+"العودة الى :\n\n" +
+rolesTo + "\n\n" +
+"السبب : انتهاء انتداب بسبب اجازة خارجية";
       } else {
         text = reason;
       }
@@ -557,8 +654,9 @@ rolesTo;
       out.value = text;
     });
 
-    // إنشاء النص في تبويب 4
+    // Tab 4 – build text
     document.getElementById('buildTab4').addEventListener('click',()=>{
+      const copyId = document.getElementById('copyId4').value.trim();
       const nameCode = document.getElementById('nameCode4').value.trim();
       const days = document.getElementById('days4').value.trim();
       const start = document.getElementById('startDate4').value.trim();
@@ -570,7 +668,9 @@ rolesTo;
       const finalLink = link || 'الرابط هنا';
 
       const text =
-`الاسم والكود: ${nameCode}
+`منشن لنفسك : <@${copyId}>
+
+الاسم والكود: ${nameCode}
 
 **المدة: ${duration} **
 
@@ -583,7 +683,54 @@ rolesTo;
       out.value = text;
     });
 
-    // زر النسخ (بدون Alerts)
+    // Tab 5 – حساب استحقاق الانتداب
+    const gradeDays = {
+      CD: 8,
+      CC: 6,
+      CB: 4,
+      CA: 3
+    };
+
+    document.getElementById('calcEntitlementBtn').addEventListener('click', () => {
+      const grade = document.getElementById('grade5').value;
+      const endInput = document.getElementById('endDateTime5');
+      const resultEl = document.getElementById('entitlementResult5');
+
+      if (!grade){
+        resultEl.textContent = '⚠️ الرجاء اختيار فئة الانتداب.';
+        return;
+      }
+      if (!endInput.value){
+        resultEl.textContent = '⚠️ الرجاء اختيار تاريخ نهاية الانتداب.';
+        return;
+      }
+
+      const baseDate = new Date(endInput.value);
+      if (isNaN(baseDate.getTime())){
+        resultEl.textContent = '⚠️ التاريخ المدخل غير صالح.';
+        return;
+      }
+
+      const daysToAdd = gradeDays[grade] || 0;
+      const target = new Date(baseDate.getTime() + daysToAdd*24*60*60*1000);
+
+      const options = {
+        year:'numeric',
+        month:'2-digit',
+        day:'2-digit',
+        hour:'2-digit',
+        minute:'2-digit',
+        hour12:true,
+        timeZone:'Asia/Riyadh'
+      };
+
+      const formatter = new Intl.DateTimeFormat('en-US', options);
+      const formatted = formatter.format(target);
+
+resultEl.textContent = 'تاريخ استحقاق الانتداب: ' + formatted;
+    });
+
+    // Copy function
     function copyFrom(id){
       const el = document.getElementById(id);
       if (!el) return;
@@ -603,13 +750,3 @@ rolesTo;
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
